@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+  * {
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@tailwind utilities;
