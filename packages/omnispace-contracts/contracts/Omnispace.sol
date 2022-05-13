@@ -63,7 +63,7 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
         startIndex = startIndex_;
         limit = limit_;
 
-        planets[1] = Planet("Ethereum", "#3c3c3d");
+        planets[1] = Planet("Ethereum", "3c3c3d");
         planets[56] = Planet("Binance", "fcd535");
         planets[43114] = Planet("Avalanche", "e84142");
         planets[137] = Planet("Polygon", "7b3fe4");

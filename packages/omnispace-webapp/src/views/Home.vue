@@ -1,5 +1,7 @@
 <template>
-  <div>Hello</div>
+  <div>
+    <BlockPlanets />
+  </div>
 </template>
 
 <script setup></script>

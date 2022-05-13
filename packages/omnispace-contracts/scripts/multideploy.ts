@@ -1,4 +1,4 @@
-import { ethers, tenderly } from "hardhat";
+import { ethers } from "hardhat";
 import {
   Omnispace,
   Omnispace__factory as OmnispaceFactory,

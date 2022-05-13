@@ -1,11 +1,5 @@
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import Torus from "@toruslabs/torus-embed";
-import Portis from "@portis/web3";
-import Authereum from "authereum";
-import MewConnect from "@myetherwallet/mewconnect-web-client";
-import WalletLink from "walletlink";
 import networks from "./networks.json";
 
 export const networkId = process.env.VUE_APP_NETWORK_ID;
@@ -19,7 +13,7 @@ export const network = networks[networkId];
 /** @type {ethers.providers.AlchemyProvider} */
 export const mainnetProvider = new ethers.providers.AlchemyProvider(
   networks[1].network,
-  "-xZN4CbntuRCIKrOSZgfdxUpV9zG_KtM" // TODO: env var OR networks.json
+  process.env.VUE_APP_ALCHEMY_API_KEY
 );
 
 // /** @type {ethers.providers.JsonRpcProvider} */
@@ -27,68 +21,13 @@ export const mainnetProvider = new ethers.providers.AlchemyProvider(
 //   network.rpc[0]
 // );
 
-/** @type {ethers.providers.AlchemyProvider} */
-export const defaultProvider = new ethers.providers.AlchemyProvider(
-  network.network,
-  "-xZN4CbntuRCIKrOSZgfdxUpV9zG_KtM" // TODO: env var OR networks.json
-);
+// /** @type {ethers.providers.AlchemyProvider} */
+// export const defaultProvider = new ethers.providers.AlchemyProvider(
+//   network.network,
+//   process.env.VUE_APP_ALCHEMY_API_KEY
+// );
 
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      infuraId: process.env.VUE_APP_INFURA_ID,
-      rpc: {
-        // networkId: network.rpc[0],
-      },
-    },
-  },
-
-  torus: {
-    package: Torus,
-    options: {
-      networkParams: {
-        host: network.rpc[0],
-        chainId: network.chainId,
-        networkId: network.key,
-      },
-    },
-  },
-
-  portis: {
-    package: Portis,
-    options: {
-      id: process.env.VUE_APP_PORTIS_ID,
-    },
-  },
-
-  authereum: {
-    package: Authereum,
-  },
-
-  mewconnect: {
-    package: MewConnect,
-    options: {
-      infuraId: process.env.VUE_APP_INFURA_ID,
-      rpc: network.rpc[0],
-      // network: network.key,
-    },
-  },
-
-  walletlink: {
-    package: WalletLink,
-    options: {
-      appName: process.env.VUE_APP_NAME,
-      infuraId: process.env.VUE_APP_INFURA_ID,
-      rpc: network.rpc[0],
-      chainId: network.chainId,
-      // appLogoUrl: null,
-      // darkMode: true,
-    },
-  },
-};
-
-providerOptions.walletconnect.options.rpc[networkId] = network.rpc[0];
+const providerOptions = {};
 
 export const web3Modal = new Web3Modal({
   network: "mainnet",

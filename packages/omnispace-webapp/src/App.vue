@@ -7,5 +7,5 @@
 
 <style lang="stylus">
 html
-  @apply bg-gray-300 text-black
+  @apply bg-gray-300 text-black p-5
 </style>

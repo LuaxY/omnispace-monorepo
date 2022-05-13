@@ -1,0 +1,20 @@
+{
+    "Rinkeby": {
+        "chainId": 4,
+        "lzId": 10001,
+        "address": "0x4Ec7d2e638e80EA03B2b2a7c453b371D1d6e95F5",
+        "color": "#3c3c3d"
+    },
+    "Mumbai": {
+        "chainId": 80001,
+        "lzId": 10009,
+        "address": "0x91f4ecA5ed9487742f69cE24A51b719206Ac2cd4",
+        "color": "#7b3fe4"
+    },
+    "FantomTest": {
+        "chainId": 4002,
+        "lzId": 10012,
+        "address": "0xC09963688B72eae430b8b898414473CfDd410372",
+        "color": "#1969ff"
+    }
+}
