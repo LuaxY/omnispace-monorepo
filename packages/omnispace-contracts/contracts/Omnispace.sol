@@ -3,7 +3,6 @@ pragma solidity 0.8.13;
 
 import "@rari-capital/solmate/src/tokens/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/interfaces/IERC2981.sol";
 import "base64-sol/base64.sol";
@@ -13,7 +12,7 @@ import "./external/layerzero/NonblockingLzApp.sol";
 
 /// @title Omnispace ERC721 token
 /// @author luax.eth
-contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
+contract Omnispace is ERC721, Ownable, NonblockingLzApp, IERC2981 {
     using Strings for uint256;
 
     /// Counter to keep a track of the total supply
@@ -97,7 +96,7 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
 
     /// @notice build a new spaceship
     /// @dev the function is payable to allow any donation.
-    function build() external payable whenNotPaused {
+    function build() external payable {
         // Check if sender is transaction origin, to prevent reentrancy attacks
         // solhint-disable-next-line avoid-tx-origin
         if (msg.sender != tx.origin) revert SenderIsNotTxOrigin();
@@ -148,7 +147,11 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
             });
     }
 
-    // TODO: document
+    /// @notice Estimage the gas cost for a LayerZero transaction
+    /// @dev the returned value is used as native token amount to send during the hyperspaceJump tx
+    /// the estimation is based on the payload and the destination chain
+    /// @param planetId_ the destination planet id
+    /// @param spaceshipId_ the tokenId of the spaceship to send
     function estimateHyperspaceJump(uint16 planetId_, uint256 spaceshipId_)
         public
         view
@@ -186,7 +189,6 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
     function hyperspaceJump(uint16 planetId_, uint256 spaceshipId_)
         external
         payable
-        whenNotPaused
     {
         // Check spaceship ownership
         if (ownerOf[spaceshipId_] != _msgSender()) revert NotTokenOwner();
@@ -248,7 +250,9 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
         return _generateTokenURI(spaceshipId_);
     }
 
-    // TODO: doc
+    /// @notice Generate token URI for a given tokenId
+    /// @dev a base64 encoded JSON is generated with metadata like the name, the SVG image and traits
+    /// @param spaceshipId_ the tokenId of the spaceship to send
     function _generateTokenURI(uint256 spaceshipId_)
         internal
         view
@@ -299,7 +303,9 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
             );
     }
 
-    // TODO: doc
+    /// @notice Generate image data for a given tokenId
+    /// @dev a base64 encoded SVG is generated with the spaceship paths and colors
+    /// @param spaceshipId_ the tokenId of the spaceship to send
     function _generateImageData(uint256 spaceshipId_)
         internal
         view
@@ -375,9 +381,9 @@ contract Omnispace is ERC721, Ownable, Pausable, NonblockingLzApp, IERC2981 {
             );
     }
 
-    // TODO: pause transfer
-
-    // TODO: doc
+    /// @notice LazyerZero receiver function used to mint a new spaceship
+    /// @dev the payload contains the owner, the source chain and traits of the spaceship
+    /// @param payload_ the payload containing spaceships specs
     function _nonblockingLzReceive(
         uint16, /*srcChainId_*/
         bytes memory, /*srcAddress_*/
